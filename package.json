@@ -11,13 +11,19 @@
         "watch": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' ./src/index.ts"
     },
     "dependencies": {
+        "jsonwebtoken": "^8.4.0",
         "koa": "^2.6.2",
+        "koa-bodyparser": "^4.2.1",
+        "koa-jwt": "^3.5.1",
         "koa-router": "^7.4.0",
         "koa2-cors": "^2.0.6",
         "mongoose": "^5.4.2"
     },
     "devDependencies": {
+        "@types/jsonwebtoken": "^8.3.0",
         "@types/koa": "^2.0.48",
+        "@types/koa-bodyparser": "^4.2.1",
+        "@types/koa-jwt": "^3.3.0",
         "@types/koa-router": "^7.0.37",
         "@types/mongoose": "^5.3.7",
         "@types/node": "^10.12.18",
@@ -25,6 +31,7 @@
         "prettier": "^1.15.3",
         "ts-node": "^7.0.1",
         "tslint": "^5.12.0",
+        "tslint-config-prettier": "^1.17.0",
         "typescript": "^3.2.2"
     }
 }

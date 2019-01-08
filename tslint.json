@@ -2,5 +2,12 @@
 	"extends": ["tslint:recommended", "tslint-config-prettier"],
 	"linterOptions": {
 		"exclude": ["config/**/*.js", "node_modules/**/*.ts"]
+	},
+	"rules": {
+		"ordered-imports": false,
+		"object-literal-sort-keys": false,
+		"no-console": false,
+		"no-var-keyword": true,
+		"indent": [true, "spaces", 4]
 	}
 }
