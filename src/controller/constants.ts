@@ -1,4 +1,4 @@
-export enum ReponseType {
+export enum ResponseType {
     success = 'SUCCESS',
     error = 'ERROR'
 }

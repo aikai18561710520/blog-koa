@@ -8,7 +8,7 @@ interface IUser {
 
 class UserHandler {
     public static async updateUser() {
-        const response = await userModel.create({password: 'guest', userName: 'guest', role: 'guest'})
+        const response = await userModel.create({password: 'guest', userName: 'guest', role: 'guest', createTime: new Date()})
         if (!response) {
             return {msg: '添加用户出错', type: 'ERROR', code: 500}
         }

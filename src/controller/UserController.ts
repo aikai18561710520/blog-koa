@@ -1,16 +1,21 @@
 import {Context} from 'koa'
-import {ReponseType} from './constants'
+import {ResponseType} from './constants'
 import {UserHandler} from '../handler'
 class UserController {
     public static async updateUser(ctx : Context) {
         const response = await UserHandler.updateUser()
-        ctx.body = response
+        const {type, msg, code} = response
+        if (type === ResponseType.success) {
+            ctx.successReponse(null, msg)
+            return
+        }
+        ctx.errorResponse(code, msg)
     }
 
     public static async login(ctx : Context) {
         const response = await UserHandler.userLogin(ctx.request.body)
         const {type, msg, code, data} = response
-        if (type === ReponseType.success) {
+        if (type === ResponseType.success) {
             ctx.successReponse(data, msg)
             return
         }

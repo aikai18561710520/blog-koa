@@ -7,7 +7,6 @@
 		"ordered-imports": false,
 		"object-literal-sort-keys": false,
 		"no-console": false,
-		"no-var-keyword": true,
-		"indent": [true, "spaces", 4]
+		"no-var-keyword": true
 	}
 }
