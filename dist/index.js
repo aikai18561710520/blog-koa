@@ -1,18 +1,23 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Koa = require("koa");
-const port = 8001;
+const mongoDB = require("./DB");
+const config = require("./config");
+const koaBodyparser = require("koa-bodyparser");
+const jwt = require("koa-jwt");
+const ReponseFormat_1 = require("./middleware/ReponseFormat");
+const ErrorHandle_1 = require("./middleware/ErrorHandle");
+const router_1 = require("./router");
 const app = new Koa();
-app.use((ctx) => __awaiter(this, void 0, void 0, function* () {
-    ctx.body = 'hello world';
-}));
-app.listen(port);
+mongoDB.connect();
+app
+    .use(ReponseFormat_1.default())
+    .use(ErrorHandle_1.default)
+    .use(jwt({ secret: 'admin' }).unless({
+    path: [/^\/public/, '/api/login', '/api/updateUser']
+}))
+    .use(koaBodyparser())
+    .use(router_1.default.routes())
+    .use(router_1.default.allowedMethods());
+app.listen(config.Port);
 //# sourceMappingURL=index.js.map

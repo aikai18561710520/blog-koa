@@ -1,3 +1,4 @@
 import UserController from './UserController'
-
-export {UserController}
+import InfoController from './InfoController'
+import ArticleController from './ArticlesController'
+export { UserController, InfoController, ArticleController }
