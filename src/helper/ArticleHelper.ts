@@ -8,6 +8,15 @@ interface IParam {
 	type: string
 	nature: string
 }
+interface IArticle {
+	id?: string
+	content?: string
+	public?: number
+	articleTag?: string
+	nature?: string
+	type?: string
+	abstract?: string
+}
 class ArticleHelper {
 	// 文章搜索
 	public static async getArticles(param: IParam) {
@@ -67,6 +76,53 @@ class ArticleHelper {
 				code: 500,
 				msg: 'article not found',
 				type: 'ERROR',
+			}
+		}
+	}
+	// 添加或更新文章
+	public static async updateArticle(article: IArticle) {
+		const { id } = article
+		try {
+			if (id) {
+				await ArticlesModel.create({ ...article, createTime: new Date() }, (error: string, obj: object) => {
+					if (error) {
+						throw error
+					} else {
+						return obj
+					}
+				})
+				return {
+					type: 'SUCCESS',
+					msg: '添加成功',
+				}
+			}
+			await ArticlesModel.update({ _id: id }, { ...article })
+			return {
+				type: 'SUCCESS',
+				msg: '更新成功',
+			}
+		} catch (error) {
+			return {
+				type: 'ERROR',
+				msg: error.message,
+				code: 500,
+			}
+		}
+	}
+
+	// 删除文章
+	public static async removeArticleById(id: string) {
+		try {
+			await ArticlesModel.remove({ _id: id })
+			return {
+				type: 'SUCCESS',
+				msg: '删除成功',
+			}
+		} catch (error) {
+			return {
+				code: 500,
+				type: 'ERROR',
+				msg: error.message,
 			}
 		}
 	}

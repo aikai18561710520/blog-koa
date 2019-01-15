@@ -27,12 +27,7 @@ class UserHelper {
 		const { userName, _id, role } = response
 
 		if (role === 'guest') {
-			const token = jwt.sign(
-				{
-					_id,
-				},
-				'guest'
-			)
+			const token = jwt.sign({ _id }, 'guest')
 			return {
 				msg: '登陆成功,您现在是游客',
 				type: 'SUCCESS',

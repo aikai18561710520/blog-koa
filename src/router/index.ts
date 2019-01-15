@@ -13,4 +13,8 @@ router
 	.post('/public/api/articles', ArticleController.getArticles)
 	// 获取文章详情
 	.get('/public/api/articleDetail', ArticleController.articleDetail)
+	// 添加或更新文章
+	.post('/api/updateArticle', ArticleController.articleUpdate)
+	// 删除文章
+	.get('/api/removeArticle', ArticleController.articleRemove)
 export default router

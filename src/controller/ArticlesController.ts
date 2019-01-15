@@ -20,6 +20,26 @@ class ArticleController {
 		}
 		ctx.errorResponse(code, msg)
 	}
+
+	public static async articleUpdate(ctx: Context) {
+		const response = await ArticleHelper.updateArticle(ctx.request.body)
+		const { type, msg, code } = response
+		if (type === ResponseType.success) {
+			ctx.successResponse(null, msg)
+			return
+		}
+		ctx.errorResponse(code, msg)
+	}
+
+	public static async articleRemove(ctx: Context) {
+		const response = await ArticleHelper.removeArticleById(ctx.query.id)
+		const { type, msg, code } = response
+		if (type === ResponseType.success) {
+			ctx.successResponse(null, msg)
+			return
+		}
+		ctx.errorResponse(code, msg)
+	}
 }
 
 export default ArticleController
