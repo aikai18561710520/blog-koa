@@ -22,9 +22,11 @@ class ArticleHelper {
 	public static async getArticles(param: IParam) {
 		try {
 			const { pageNum, pageSize, tagName, title, type, nature } = param
-			let data: object
+			let data: object = {
+				isPublic: 1,
+			}
 			if (title) {
-				data = { title: new RegExp(title) }
+				data = { ...data, title: new RegExp(title) }
 			}
 			if (tagName) {
 				const tagId: any = await TagsModel.find({ name: tagName })
@@ -61,6 +63,27 @@ class ArticleHelper {
 			}
 		}
 	}
+	// 查询类别下的文章列表
+	public static async findCategoryArticles() {
+		try {
+			const result: any[] = await ArticlesModel.find({ isPublic: 1 }).populate('tags')
+			const data = result.map(c => {
+				const { createTime, title, name } = c
+				return { createTime, title, tagName: name }
+			})
+			return {
+				type: 'SUCCESS',
+				data,
+				msg: 'success',
+			}
+		} catch (error) {
+			return {
+				type: 'ERROR',
+				msg: error.message,
+				code: 500,
+			}
+		}
+	}
 
 	public static async findArticleById(id: string) {
 		try {
@@ -85,7 +108,10 @@ class ArticleHelper {
 	public static async updateArticle(article: IArticle) {
 		const { id } = article
 		try {
-			if (id) {
+			if (!id) {
+				const { articleTag } = article
+				const tagInfo: any = await TagsModel.find({ id: articleTag })
+				await TagsModel.update({ id: articleTag }, { articleNum: ++tagInfo.articleNum })
 				await ArticlesModel.create({ ...article, createTime: new Date() }, (error: string, obj: object) => {
 					if (error) {
 						throw error

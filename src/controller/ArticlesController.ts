@@ -11,6 +11,16 @@ class ArticleController {
 		}
 		ctx.errorResponse(code, msg)
 	}
+	public static async getCategoryArticles(ctx: Context) {
+		const response = await ArticleHelper.findCategoryArticles()
+		const { type, msg, code, data } = response
+		if (type === ResponseType.success) {
+			ctx.successResponse(data, msg)
+			return
+		}
+		ctx.errorResponse(code, msg)
+	}
+
 	public static async articleDetail(ctx: Context) {
 		const response = await ArticleHelper.findArticleById(ctx.query.id)
 		const { type, msg, code, data } = response

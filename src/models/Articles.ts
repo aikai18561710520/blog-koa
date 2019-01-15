@@ -6,7 +6,7 @@ const Articles = new Schema({
 	// 文章标题
 	title: String,
 	// 是否公开
-	public: {
+	isPublic: {
 		type: Number,
 		default: 1, // 文章公开： 1  不公开： 0
 	},
