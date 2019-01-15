@@ -18,7 +18,7 @@ const Articles = new Schema({
 	// 文章标签
 	articleTag: {
 		type: Schema.Types.ObjectId,
-		ref: 'tag',
+		ref: 'tags',
 	},
 	// 原创或转载
 	nature: String,

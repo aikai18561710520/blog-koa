@@ -1,5 +1,5 @@
 import { ArticlesModel } from '../models'
-
+import { TagsModel } from '../models'
 interface IParam {
 	pageSize: number | string
 	pageNum: number | string
@@ -27,7 +27,8 @@ class ArticleHelper {
 				data = { title: new RegExp(title) }
 			}
 			if (tagName) {
-				data = { ...data, 'tag.name': tagName }
+				const tagId: any = await TagsModel.find({ name: tagName })
+				data = { ...data, articleTag: tagId.id }
 			}
 			if (type) {
 				data = { ...data, type }
@@ -35,8 +36,9 @@ class ArticleHelper {
 			if (nature) {
 				data = { ...data, nature }
 			}
-			const Skip: number = Number(pageNum) * Number(pageSize) - Number(pageNum)
+			const Skip: number = Number(pageNum) * Number(pageSize) - Number(pageSize)
 			const articles = await ArticlesModel.find(data)
+				.populate('tags')
 				.sort({ createTime: -1 })
 				.limit(Number(pageSize))
 				.skip(Skip)
@@ -123,6 +125,27 @@ class ArticleHelper {
 				code: 500,
 				type: 'ERROR',
 				msg: error.message,
+			}
+		}
+	}
+
+	// 文章点赞
+	public static async likeArticle(id: string) {
+		try {
+			const article: any = await ArticlesModel.find({ _id: id })
+			await ArticlesModel.update({ _id: id }, { likeNum: article.likeNum++ })
+			return {
+				type: 'SUCCESS',
+				msg: '点赞成功',
+				data: {
+					like: ++article.likeNum,
+				},
+			}
+		} catch (error) {
+			return {
+				type: 'ERROR',
+				msg: error.message,
+				code: 500,
 			}
 		}
 	}

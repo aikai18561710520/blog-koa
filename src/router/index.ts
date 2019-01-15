@@ -1,5 +1,5 @@
 import * as KoaRouter from 'koa-router'
-import { UserController, InfoController, ArticleController } from '../controller'
+import { UserController, InfoController, ArticleController, DynamicController } from '../controller'
 const router = new KoaRouter()
 
 router
@@ -17,4 +17,12 @@ router
 	.post('/api/updateArticle', ArticleController.articleUpdate)
 	// 删除文章
 	.get('/api/removeArticle', ArticleController.articleRemove)
+	// 文章点赞
+	.get('/api/likeArticle', ArticleController.articleLikes)
+	// 获取动态
+	.get('/public/api/getDynamics', DynamicController.getDynamics)
+	// 新增动态
+	.post('/api/addDynamic', DynamicController.addDynamic)
+	// 删除动态
+	.get('/api/removeDynamic', DynamicController.removeDynamic)
 export default router

@@ -40,6 +40,16 @@ class ArticleController {
 		}
 		ctx.errorResponse(code, msg)
 	}
+
+	public static async articleLikes(ctx: Context) {
+		const response = await ArticleHelper.likeArticle(ctx.query.id)
+		const { type, msg, code, data } = response
+		if (type === ResponseType.success) {
+			ctx.successResponse(data, msg)
+			return
+		}
+		ctx.errorResponse(code, msg)
+	}
 }
 
 export default ArticleController
